@@ -24,6 +24,13 @@ const schema = mongoose.Schema({
     address: String,
   },
   instruction: String,
+  chat: [
+    {
+      sender: String,
+      message: String,
+      data: Date,
+    },
+  ],
 });
 
 mongoose.model("Order", schema);
