@@ -10,6 +10,7 @@ const schema = mongoose.Schema({
   thumb: String,
   img: String,
   orders: [{ type: ObjectId, ref: "Order" }],
+  items: [{ type: ObjectId, ref: "Item" }],
 });
 
 mongoose.model("Shop", schema);

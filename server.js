@@ -16,6 +16,7 @@ require("./models/Address");
 require("./models/Order");
 require("./models/Shop");
 require("./models/User");
+require("./models/Item");
 
 ///routes
 const orderRoutes = require("./routes/orderRoutes");
@@ -67,13 +68,21 @@ io.on("connection", (socket) => {
   socket.on("messageToAdmin", async (data) => {
     const order = await Order.findById(data.id);
     order.chat.unshift(data.message);
+    order.unreadMessagesForAdmin = order.unreadMessagesForAdmin + 1;
+    order.unreadMessagesForCustomer = 0;
+
     await order.save();
+    data.unreadMessagesForAdmin = order.unreadMessagesForAdmin;
     io.to("admin").emit("messageToAdmin", data);
   });
   socket.on("messageToCustomer", async (data) => {
     const order = await Order.findById(data.id);
     order.chat.unshift(data.message);
+    order.unreadMessagesForCustomer = order.unreadMessagesForCustomer + 1;
+    order.unreadMessagesForAdmin = 0;
+
     await order.save();
+    data.unreadMessagesForCustomer = order.unreadMessagesForCustomer;
     connections[order.customer].emit("messageToCustomer", data);
   });
 });

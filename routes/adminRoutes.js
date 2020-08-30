@@ -3,6 +3,16 @@ const router = require("express").Router();
 const orderController = require("../controllers/orderControllers");
 const auth = require("../middleware/auth");
 
+router.get("/items", auth.isUser, orderController.getAllItems);
+router.post("/items", auth.isUser, auth.isAdmin, orderController.addItem);
+router.delete(
+  "/items/:id",
+  auth.isUser,
+  auth.isAdmin,
+  orderController.deleteItem
+);
+router.put("/items/:id", auth.isUser, auth.isAdmin, orderController.updateItem);
+
 router.get("/orders", auth.isUser, auth.isAdmin, orderController.getAllOrders);
 router.put(
   "/orders/update",

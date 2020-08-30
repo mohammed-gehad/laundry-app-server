@@ -3,6 +3,8 @@ const ObjectId = mongoose.Types.ObjectId;
 const orderStatus = require("./orderStatuses");
 const schema = mongoose.Schema({
   customer: { type: ObjectId, ref: "User" },
+  cart: [{ id: { type: ObjectId, ref: "Item" }, quantity: Number }],
+  price: Number,
   status: {
     type: String,
     default: orderStatus.PICK_UP_SCHEDULED,
@@ -18,10 +20,10 @@ const schema = mongoose.Schema({
     type: Boolean,
     default: false,
   },
-  address: {
+  address: String,
+  location: {
     latitude: Number,
     longitude: Number,
-    address: String,
   },
   instruction: String,
   chat: [
@@ -31,6 +33,14 @@ const schema = mongoose.Schema({
       data: Date,
     },
   ],
+  unreadMessagesForAdmin: {
+    type: Number,
+    default: 0,
+  },
+  unreadMessagesForCustomer: {
+    type: Number,
+    default: 0,
+  },
 });
 
 mongoose.model("Order", schema);

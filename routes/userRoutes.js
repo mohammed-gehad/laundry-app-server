@@ -27,7 +27,7 @@ route.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
     if (!email || !password) return res.send("email or password are required");
-    const user = await UserModel.findOne({ email: email.toLowerCase() });
+    const user = await UserModel.findOne({ email: email });
     if (!user) throw { message: "invalid email", username: "" };
     const isCorrect = await bcrypt.compare(password, user.password);
     if (isCorrect) {
