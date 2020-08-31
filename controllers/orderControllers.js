@@ -115,14 +115,14 @@ exports.addOrder = async (req, res) => {
     await order.save();
     await user.save();
     await shop.save();
-    const user = await User.findById(userId)
+    const _user = await User.findById(userId)
       .populate({
         path: "orders",
         populate: { path: "cart", populate: { path: "id" } },
       })
       .select("orders -_id");
 
-    res.send(user);
+    res.send(_user);
   } catch (e) {
     console.log(e);
     res.send(e);
