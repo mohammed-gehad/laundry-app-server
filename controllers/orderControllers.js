@@ -202,8 +202,12 @@ exports.getCustomersCurrentOrders = async (req, res) => {
     const userId = req.user._id;
     if (!userId) return res.send("user id is required");
     const user = await User.findById(userId)
-      .populate("orders")
+      .populate({
+        path: "orders",
+        populate: { path: "cart", populate: { path: "id" } },
+      })
       .select("orders -_id");
+
     res.send(user);
   } catch (e) {
     console.log(e);
