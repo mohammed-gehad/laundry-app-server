@@ -17,6 +17,6 @@
     "localtunnel": "^2.0.0",
     "mongoose": "^5.9.16",
     "ngrok": "^3.2.7",
-    "socket.io": "^2.3.0"
+    "socket.io": "^2.4.0"
   }
 }
